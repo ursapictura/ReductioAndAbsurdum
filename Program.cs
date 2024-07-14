@@ -58,7 +58,8 @@ while (choice != "0")
     2. Add product to store's inventory
     3. Remove a product inventory
     4. Update product in inventory
-    5. View products by category");
+    5. View products by category
+    6. View currently available products");
 
     choice = Console.ReadLine();
 
@@ -90,6 +91,11 @@ while (choice != "0")
     {
         Console.Clear();
         FilterByType();
+    }
+    else if (choice == "6")
+    {
+        Console.Clear();
+        ViewAvailable();
     }
     else
     {
@@ -142,7 +148,6 @@ void AddProduct()
     bool productAvailable;
     while (true)
     {
-        Console.Clear();
         Console.WriteLine($"Is {productName} currently available for purchase? Enter YES or NO");
         string choice = Console.ReadLine();
         if (choice.ToLower() == "yes" || choice == "y")
@@ -186,7 +191,6 @@ void AddProduct()
 // DeleteProduct Method
 void DeleteProduct()
 {
-    Console.Clear();
     Console.WriteLine("Enter the number of the product you would like to remove.");
 
     for (int i = 0; i < products.Count; i++)
@@ -201,8 +205,9 @@ void DeleteProduct()
              && productNumber > 0
              && productNumber <= products.Count)
         {
-            products.RemoveAt(productNumber - 1);
-            Console.WriteLine($"As you wish! The {products[productNumber - 1].Name} has been removed from the shop!");
+            int productIndex = productNumber - 1;
+            Console.WriteLine($"As you wish! The {products[productIndex].Name} has been removed from the shop!");
+            products.RemoveAt(productIndex);
             break;
         }
         else
@@ -216,7 +221,6 @@ void DeleteProduct()
 // UpdateProduct Method
 void UpdateProduct()
 {
-    Console.Clear();
     Console.WriteLine("Which product would you like to update?");
 
     for (int i = 0; i < products.Count; i++)
@@ -331,7 +335,7 @@ void UpdateProduct()
 }
 
 
-// TODO: Filter by ProductTypeID
+// Filter by ProductTypeID
 void FilterByType()
 {
     int productTypeInput;
@@ -370,7 +374,17 @@ void FilterByType()
     Console.Clear();
 }
 
+// View AVAILABLE products only
+void ViewAvailable()
+{
+    Console.WriteLine("The following products are currently available for purchase.");
+    List<Product> unsoldProducts = products.Where(p => p.Available).ToList();
 
+    foreach(Product product in unsoldProducts)
+    {
+        Console.WriteLine($"{ProductDetails(product)}");
+    }
+}
 
 void ListProductTypes()
 {
