@@ -96,11 +96,11 @@ string ProductDetails(Product product)
    return detailsString;
 }
 
-// ViewAllProducts Method
+// ViewProducts Method
 
 void ViewProducts()
 {
-    Console.WriteLine("Here are all the products listed in your invenory:");
+    Console.WriteLine("Here are all the products listed in your inventory:");
     for (int i = 0; i < products.Count; i++)
     {
         Console.WriteLine($"{i + 1}. The {ProductDetails(products[i])}");
@@ -134,6 +134,7 @@ void AddProduct()
     bool productAvailable;
     while(true)
     {
+        Console.Clear();
         Console.WriteLine($"Is {productName} currently available for purchase? Enter Yes or No");
         string choice = Console.ReadLine();
         if (choice.ToLower() == "yes" || choice == "y")
@@ -177,7 +178,29 @@ void AddProduct()
 // TODO: DeleteProduct Method
 void DeleteProduct()
 {
-    Console.WriteLine("Delete a product");
+    Console.Clear();
+    Console.WriteLine("Enter the number of the product you would like to remove.");
+    
+    for (int i = 0; i < products.Count; i++)
+    {
+        Console.WriteLine($"{i + 1}. {products[i].Name}");
+    }
+
+    int productNumber;
+    while (true)
+    {
+       if (int.TryParse(Console.ReadLine(), out productNumber)
+            && productNumber > 0
+            && productNumber <= products.Count)
+        {
+            products.RemoveAt(productNumber - 1);
+            Console.WriteLine($"As you wish! The {products[productNumber - 1].Name} has been removed from the shop!");
+            break;
+        }
+        else {
+            Console.WriteLine("I'm Sorry, your inout was invalid. Please select the number of the product you would like to remove.");
+        }
+    }
 }
 
 
