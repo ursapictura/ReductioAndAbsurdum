@@ -57,7 +57,8 @@ while (choice != "0")
     1. View all products
     2. Add product to store's inventory
     3. Remove a product inventory
-    4. Update product in inventory");
+    4. Update product in inventory
+    5. View products by category");
 
     choice = Console.ReadLine();
 
@@ -85,9 +86,14 @@ while (choice != "0")
         Console.Clear();
         UpdateProduct();
     }
+    else if (choice == "5")
+    {
+        Console.Clear();
+        FilterByType();
+    }
     else
     {
-        Console.WriteLine("Please choose a valid choice between 1 - 4!");
+        Console.WriteLine("Please choose a valid choice between 1 - 5!");
     }
 }
 
@@ -326,7 +332,43 @@ void UpdateProduct()
 
 
 // TODO: Filter by ProductTypeID
+void FilterByType()
+{
+    int productTypeInput;
+    while (true)
+    {
+        Console.Clear();
+        Console.WriteLine("Which category of products would you like to see?");
 
+        for (int i = 0; i < productType.Count; i++)
+        {
+            Console.WriteLine($"{i + 1} {productType[i].Name}");
+        }
+
+        if (int.TryParse(Console.ReadLine(), out productTypeInput)
+             && productTypeInput > 0
+             && productTypeInput <= productType.Count)
+             {
+                break;
+             }
+             else
+             {
+                Console.WriteLine("I'm sorry, your answer was not valid. Please select the number of the category of products you would like to see.");
+             }
+    }
+    Console.Clear();
+
+    List<Product> filteredProducts = products.Where(p => p.ProductTypeId == productTypeInput).ToList();
+
+    foreach (Product product in filteredProducts)
+    {
+        Console.WriteLine($"{product.Name} is {(product.Available ? "available" : "sold")} for {product.Price}. {product.ProductTypeId}");
+    }
+
+    Console.WriteLine("press ENTER to continue");
+    Console.ReadLine();
+    Console.Clear();
+}
 
 
 
