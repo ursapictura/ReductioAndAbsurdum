@@ -3,7 +3,7 @@ using ReductioAndAbsurdum;
 // Create ProductTypes for shop with the following categories:
 //        apparel, potions, enchanted objects, and wands
 
-List<ProductType> productType= new List<ProductType>()
+List<ProductType> productType = new List<ProductType>()
 {
     new ProductType(1, "apparel"),
     new ProductType(2, "potions"),
@@ -92,11 +92,11 @@ while (choice != "0")
 
 string ProductDetails(Product product)
 {
-   string detailsString = $"{product.Name} is {(product.Available ? "sold" : "available")} for {product.Price}.";
+   string detailsString = $"{product.Name} is {(product.Available ? "available" : "sold")} for {product.Price}.";
    return detailsString;
 }
 
-// TODO: ViewAllProducts Method
+// ViewAllProducts Method
 
 void ViewProducts()
 {
@@ -110,7 +110,68 @@ void ViewProducts()
 // TODO: AddProduct Method
 void AddProduct()
 {
-    Console.WriteLine("Add a product");
+    string productName = null;
+    while (string.IsNullOrEmpty(productName))
+    {
+        Console.WriteLine("What is the name of the product you would like to add?");
+        productName = Console.ReadLine();
+    }
+
+    decimal productPrice;
+    while (true)
+    {
+        Console.WriteLine("How much does the product cost?");
+
+        if (decimal.TryParse(Console.ReadLine(), out productPrice)) 
+        {
+            break;
+        }
+        else{
+            Console.WriteLine("Sorry, that input was invalid. Please enter a valid price as either a decimal or whole number.");
+        }
+    }
+
+    bool productAvailable;
+    while(true)
+    {
+        Console.WriteLine($"Is {productName} currently available for purchase? Enter Yes or No");
+        string choice = Console.ReadLine();
+        if (choice.ToLower() == "yes" || choice == "y")
+        {
+            productAvailable = true;
+            break;
+        }
+        else if (choice.ToLower() == "no" || choice == "n")
+        {
+            productAvailable = false;
+            break;
+        }
+        else 
+        {
+            Console.WriteLine($"I'm sorry, you're answer was not valid. Please enter Yes if {productName} is available for purchase. If it is unavailble, responde with No.");
+        }
+    }
+
+    int productTypeInput;
+    while (true) 
+    {
+        Console.WriteLine($"What category should {productName} be sorted into?");
+        ListProductTypes();
+
+        if (Int32.TryParse(Console.ReadLine(), out productTypeInput)
+            && productTypeInput > 0
+            && productTypeInput <= productType.Count)
+        {
+            break;
+        }
+        else 
+        {
+            Console.WriteLine($"I'm sorry, you're input was not valid. Please select the number of the category where you would like {productName} sorted.");
+        }
+    }
+
+    Product newProduct = new(productName, productPrice, productAvailable, productTypeInput);
+    products.Add(newProduct);
 }
 
 // TODO: DeleteProduct Method
@@ -124,4 +185,11 @@ void DeleteProduct()
 void UpdateProduct()
 {
     Console.WriteLine("Update a Product");
+}
+
+void ListProductTypes() {
+    for (int i = 0; i < productType.Count; i++)
+    {
+        Console.WriteLine($"{i + 1} {productType[i].Name}");
+    }
 }
