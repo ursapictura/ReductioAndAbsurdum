@@ -15,32 +15,32 @@ List<ProductType> productType = new List<ProductType>()
 // Create Products for shop
 List<Product> products = new List<Product>()
 {
-    new Product("Hand of Glory", 500, true, 3),
-    new Product("Vorpal Sword", 1200, true, 3),
-    new Product("Gris Gris Bag", 100, true, 2),
-    new Product("Willow and Tigers Eye", 300, true, 4),
-    new Product("Oak and Lapiz Lazuli", 350, true, 4),
-    new Product("grave dirt", 25, true, 5),
-    new Product("Tarot Deck: Rider Waite", 50, true, 3),
-    new Product("Tarot Deck: Aquarian", 65, true, 3),
-    new Product("Channeling Oil", 120, true, 2),
-    new Product("Elixir of Flight", 200, true, 2),
-    new Product("Hag Stone", 70, true, 3),
-    new Product("Banishing Oil", 80, true, 2),
-    new Product("Four Thieves Vinegar", 45, true, 2),
-    new Product("Summoning water", 55, true, 2),
-    new Product("Altar Annointing Oil", 25, true, 2),
-    new Product("Skyclad", 0, true, 1),
-    new Product("Moonlit Robe", 250, false, 1),
-    new Product("crossing dirt", 25, true, 5),
-    new Product("mugwort", 5, true, 5),
-    new Product("yarrow", 5, true, 5),
-    new Product("rue", 5, false, 5),
-    new Product("wormwood", 7, true, 5),
-    new Product("belladonna", 10, false, 5),
-    new Product("Radiant Veil", 175, false, 1),
-    new Product("candles, assorted", 2, true, 5),
-    new Product("Innovacation Candle", 75, false, 3)
+    new Product("Hand of Glory", 500, true, 3, new DateTime(2024, 03, 04)),
+    new Product("Vorpal Sword", 1200, true, 3, new DateTime(2023, 12, 11)),
+    new Product("Gris Gris Bag", 100, true, 2, new DateTime(2023, 05, 10)),
+    new Product("Willow and Tigers Eye", 300, true, 4, new DateTime(2024, 01, 14)),
+    new Product("Oak and Lapiz Lazuli", 350, true, 4, new DateTime(2023, 07, 13)),
+    new Product("grave dirt", 25, true, 5, new DateTime(2024, 10, 09)),
+    new Product("Tarot Deck: Rider Waite", 50, true, 3, new DateTime(2024, 07, 07)),
+    new Product("Tarot Deck: Aquarian", 65, true, 3, new DateTime(2022, 05, 11)),
+    new Product("Channeling Oil", 120, true, 2, new DateTime(2024, 05, 08)),
+    new Product("Elixir of Flight", 200, true, 2, new DateTime(2024, 07, 03)),
+    new Product("Hag Stone", 70, true, 3, new DateTime(2024, 02, 14)),
+    new Product("Banishing Oil", 80, true, 2, new DateTime(2023, 12, 12)),
+    new Product("Four Thieves Vinegar", 45, true, 2, new DateTime(2024, 03, 09)),
+    new Product("Summoning water", 55, true, 2, new DateTime(2023, 12, 23)),
+    new Product("Altar Annointing Oil", 25, true, 2, new DateTime(2023, 09, 24)),
+    new Product("Skyclad", 0, true, 1, new DateTime(2024, 04, 25)),
+    new Product("Moonlit Robe", 250, false, 1, new DateTime(2024, 06, 23)),
+    new Product("crossing dirt", 25, true, 5, new DateTime(2022, 05, 12)),
+    new Product("mugwort", 5, true, 5, new DateTime(2024, 05, 22)),
+    new Product("yarrow", 5, true, 5, new DateTime(2024, 05, 22)),
+    new Product("rue", 5, false, 5, new DateTime(2024, 05, 22)),
+    new Product("wormwood", 7, true, 5, new DateTime(2024, 05, 22)),
+    new Product("belladonna", 10, false, 5, new DateTime(2024, 05, 22)),
+    new Product("Radiant Veil", 175, false, 1, new DateTime(2019, 09, 09)),
+    new Product("candles, assorted", 2, true, 5, new DateTime(2024, 07, 13)),
+    new Product("Innovacation Candle", 75, false, 3, new DateTime(2024, 01, 21))
 };
 
 // Create Main Menu with the following options: view all products, add product to inventory, 
@@ -99,7 +99,7 @@ while (choice != "0")
 
 string ProductDetails(Product product)
 {
-    string detailsString = $"{product.Name} is {(product.Available ? "available" : "sold")} for {product.Price}.";
+    string detailsString = $"{product.Name} is {(product.Available ? "available" : "sold")} for {product.Price}. Days in stock: {product.DaysOnShelf}";
     return detailsString;
 }
 
@@ -179,7 +179,7 @@ void AddProduct()
         }
     }
 
-    Product newProduct = new(productName, productPrice, productAvailable, productTypeInput);
+    Product newProduct = new(productName, productPrice, productAvailable, productTypeInput, DateTime.Now);
     products.Add(newProduct);
 }
 
