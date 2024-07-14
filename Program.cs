@@ -43,7 +43,7 @@ List<Product> products = new List<Product>()
     new Product("Innovacation Candle", 75, false, 3)
 };
 
-// TODO: Create Main Menu with the following options: view all products, add product to inventory, 
+// Create Main Menu with the following options: view all products, add product to inventory, 
 // delete product, and update product
 
 string greeting = "Welcome the the Inventory Management System for Reductio and Absurdum's Magick Shoppe!";
@@ -85,15 +85,16 @@ while (choice != "0")
         Console.Clear();
         UpdateProduct();
     }
-    else {
+    else
+    {
         Console.WriteLine("Please choose a valid choice between 1 - 4!");
     }
 }
 
 string ProductDetails(Product product)
 {
-   string detailsString = $"{product.Name} is {(product.Available ? "available" : "sold")} for {product.Price}.";
-   return detailsString;
+    string detailsString = $"{product.Name} is {(product.Available ? "available" : "sold")} for {product.Price}.";
+    return detailsString;
 }
 
 // ViewProducts Method
@@ -103,11 +104,11 @@ void ViewProducts()
     Console.WriteLine("Here are all the products listed in your inventory:");
     for (int i = 0; i < products.Count; i++)
     {
-        Console.WriteLine($"{i + 1}. The {ProductDetails(products[i])}");
+        Console.WriteLine($"{i + 1}. {ProductDetails(products[i])}");
     }
-} 
+}
 
-// TODO: AddProduct Method
+// AddProduct Method
 void AddProduct()
 {
     string productName = null;
@@ -122,20 +123,21 @@ void AddProduct()
     {
         Console.WriteLine("How much does the product cost?");
 
-        if (decimal.TryParse(Console.ReadLine(), out productPrice)) 
+        if (decimal.TryParse(Console.ReadLine(), out productPrice))
         {
             break;
         }
-        else{
+        else
+        {
             Console.WriteLine("Sorry, that input was invalid. Please enter a valid price as either a decimal or whole number.");
         }
     }
 
     bool productAvailable;
-    while(true)
+    while (true)
     {
         Console.Clear();
-        Console.WriteLine($"Is {productName} currently available for purchase? Enter Yes or No");
+        Console.WriteLine($"Is {productName} currently available for purchase? Enter YES or NO");
         string choice = Console.ReadLine();
         if (choice.ToLower() == "yes" || choice == "y")
         {
@@ -147,14 +149,14 @@ void AddProduct()
             productAvailable = false;
             break;
         }
-        else 
+        else
         {
-            Console.WriteLine($"I'm sorry, you're answer was not valid. Please enter Yes if {productName} is available for purchase. If it is unavailble, responde with No.");
+            Console.WriteLine($"I'm sorry, you're answer was not valid. Please enter YES if {productName} is available for purchase. If it is unavailble, responde with NO.");
         }
     }
 
     int productTypeInput;
-    while (true) 
+    while (true)
     {
         Console.WriteLine($"What category should {productName} be sorted into?");
         ListProductTypes();
@@ -165,7 +167,7 @@ void AddProduct()
         {
             break;
         }
-        else 
+        else
         {
             Console.WriteLine($"I'm sorry, you're input was not valid. Please select the number of the category where you would like {productName} sorted.");
         }
@@ -175,42 +177,161 @@ void AddProduct()
     products.Add(newProduct);
 }
 
-// TODO: DeleteProduct Method
+// DeleteProduct Method
 void DeleteProduct()
 {
     Console.Clear();
     Console.WriteLine("Enter the number of the product you would like to remove.");
-    
+
     for (int i = 0; i < products.Count; i++)
     {
         Console.WriteLine($"{i + 1}. {products[i].Name}");
     }
 
-    int productNumber;
+    // int productNumber;
     while (true)
     {
-       if (int.TryParse(Console.ReadLine(), out productNumber)
-            && productNumber > 0
-            && productNumber <= products.Count)
+        if (int.TryParse(Console.ReadLine(), out int productNumber)
+             && productNumber > 0
+             && productNumber <= products.Count)
         {
             products.RemoveAt(productNumber - 1);
             Console.WriteLine($"As you wish! The {products[productNumber - 1].Name} has been removed from the shop!");
             break;
         }
-        else {
+        else
+        {
             Console.WriteLine("I'm Sorry, your inout was invalid. Please select the number of the product you would like to remove.");
         }
     }
 }
 
 
-// TODO: UpdateProduct Method
+// UpdateProduct Method
 void UpdateProduct()
 {
-    Console.WriteLine("Update a Product");
+    Console.Clear();
+    Console.WriteLine("Which product would you like to update?");
+
+    for (int i = 0; i < products.Count; i++)
+    {
+        Console.WriteLine($"{i + 1} {products[i].Name}");
+    }
+
+//  int choice;
+    int productIndex;
+    while (true)
+    {
+        if (int.TryParse(Console.ReadLine(), out int choice)
+             && choice > 0
+             && choice <= products.Count)
+             {
+                productIndex = choice - 1;
+                break;
+             }
+             else
+             {
+                Console.WriteLine("I'm sorry, your answer was not valid. Please select the number of the product you would like to update.");
+             }
+    }
+
+    Console.Clear();
+
+    string productName = products[productIndex].Name;
+    while (true)
+    {
+        Console.WriteLine($"What is the new name of {products[productIndex].Name}?");
+
+       if(!string.IsNullOrEmpty(productName))
+       {
+            productName = Console.ReadLine();
+            break;
+       }
+       else 
+       {
+        Console.WriteLine("Please enter a name for this product.");
+       }
+    }
+
+    Console.Clear();
+
+    decimal productPrice = products[productIndex].Price;
+    while (true)
+    {
+        Console.WriteLine($"{productName} currently costs {products[productIndex].Price}. What would you like the new price to be?");
+
+        if (decimal.TryParse(Console.ReadLine(), out productPrice))
+        {
+            break;
+        }
+        else
+        {
+            Console.WriteLine("Sorry, that input was invalid. Please enter a valid price as either a decimal or whole number.");
+        }
+    }
+
+    bool productAvailable = products[productIndex].Available;
+    while (true)
+    {
+        Console.Clear();
+        Console.WriteLine($"Is {productName} currently available for purchase? Enter YES or NO");
+        string choice = Console.ReadLine();
+        if (choice.ToLower() == "yes" || choice == "y")
+        {
+            productAvailable = true;
+            break;
+        }
+        else if (choice.ToLower() == "no" || choice == "n")
+        {
+            productAvailable = false;
+            break;
+        }
+        else
+        {
+            Console.WriteLine($"I'm sorry, you're answer was not valid. Please enter YES if {productName} is available for purchase. If it is unavailble, responde with NO.");
+        }
+    }
+
+    Console.Clear();
+
+    int productTypeInput;
+    while (true)
+    {
+        Console.WriteLine($"What category should {productName} be sorted into?");
+        ListProductTypes();
+
+        if (Int32.TryParse(Console.ReadLine(), out productTypeInput)
+            && productTypeInput > 0
+            && productTypeInput <= productType.Count)
+        {
+            break;
+        }
+        else
+        {
+            Console.WriteLine($"I'm sorry, you're input was not valid. Please select the number of the category where you would like {productName} sorted.");
+        }
+    }
+
+//  Update product at chosen index to reflect inputs from user. 
+    products[productIndex].Name = productName;
+    products[productIndex].Price = productPrice;
+    products[productIndex].Available = productAvailable;
+    products[productIndex].ProductTypeId = productTypeInput;
+
+    Console.WriteLine($"Ichita copita melaka mystica..{productName} has been transformed!");
+    Console.WriteLine("press ENTER to continue");
+    Console.ReadLine();
+
 }
 
-void ListProductTypes() {
+
+// TODO: Filter by ProductTypeID
+
+
+
+
+void ListProductTypes()
+{
     for (int i = 0; i < productType.Count; i++)
     {
         Console.WriteLine($"{i + 1} {productType[i].Name}");
